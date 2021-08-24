@@ -10,6 +10,8 @@ import random
 
 
 #view index
+def index_view(request):
+    return render(request, 'quiz/index.html', {})
 
 #La view que muestra la pregunta
 def pregunta_view(request, pregunta_id):
@@ -17,6 +19,8 @@ def pregunta_view(request, pregunta_id):
         preguntas = Pregunta.objects.all()
 
         respuestas = Respuesta.objects.all()
+
+        sesion, created = ProgresoSesion.objects.get_or_create(usuario=request.user)
 
         #quitamos pregunta de las preguntas disponibles
         print(f"llamando a la funcion {pregunta_id}")
@@ -32,7 +36,8 @@ def pregunta_view(request, pregunta_id):
 
         return render(request, 'quiz/pregunta.html', {
             'pregunta': pregunta,
-            'respuestas': respuestas_pregunta
+            'respuestas': respuestas_pregunta,
+            'vidas': sesion.vidas
         })
 
     if request.method == 'POST':
@@ -51,20 +56,41 @@ def pregunta_view(request, pregunta_id):
             sesion.save()
 
             #redireccionar
-            return redirect('pregunta_view', pregunta_id=id_pregunta_disponible)
+            if id_pregunta_disponible:
+                return redirect('pregunta_view', pregunta_id=id_pregunta_disponible)
+            else:
+                return redirect('resultado_view', sesion_id=sesion.id)
+
+            #return redirect('pregunta_view', pregunta_id=id_pregunta_disponible)
         else:
         # si es incorrecta => redireccionar a view fin de partida
             sesion = ProgresoSesion.objects.get(usuario=request.user)
-            return redirect('resultado_view', sesion_id=sesion.id)
+            sesion.vidas -=1
+            sesion.save()
 
+            if sesion.vidas != 0:
+                id_pregunta_disponible = obtener_id_disponible(request.user.id)
+                return redirect('pregunta_view', pregunta_id=id_pregunta_disponible)
+
+            else:
+                return redirect('resultado_view', sesion_id=sesion.id)
 
 
 
 def resultado_view(request, sesion_id):
     sesion = ProgresoSesion.objects.get(id=sesion_id)
+    ganador = True
+
+    puntaje = sesion.puntaje
+
+    if sesion.vidas == 0:
+        ganador = False
+
+    sesion.delete()
 
     return render(request, 'quiz/resultado.html', {
-        'puntaje': sesion.puntaje
+        'puntaje': puntaje,
+        'ganador': ganador
     })
 
 

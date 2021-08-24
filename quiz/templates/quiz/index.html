@@ -4,18 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>INICIO</title>
 </head>
 <body>
-    <h1>tu puntaje es {{ puntaje }}!!</h1>
-    {% if ganador %}
-        <h2>GANASTE!!</h2>
-    {% else %}
-        <h2>PERDISTE :(</h2>
-    {% endif %}
-
     <button>
-        <a href="{% url 'pregunta_view' 1 %}">JUGAR DE NUEVO</a>
+        <a href="{% url 'pregunta_view' 1 %}">JUGAR!</a>
     </button>
 </body>
 </html>

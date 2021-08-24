@@ -20,6 +20,8 @@ class ProgresoSesion(models.Model):
 
     puntaje = models.IntegerField(default=0)
 
+    vidas = models.IntegerField(default=3)
+
     def obtener_todas_las_preguntas():
         string_de_preguntas = ""
 
