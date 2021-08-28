@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pregunta</title>
-  </head>
-  <body>
+{% extends "quiz/layout.html" %}
+
+{% block body %}
+
     <p>te quedan {{ vidas }} vidas</p>
     <h1>{{ pregunta.texto }}</h1>
     <ul>
@@ -22,4 +17,5 @@
       {% endfor %}
     </ul>
   </body>
-</html>
+
+{% endblock %}

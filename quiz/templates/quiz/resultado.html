@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends "quiz/layout.html" %}
+
+{% block body %}
     <h1>tu puntaje es {{ puntaje }}!!</h1>
     {% if ganador %}
         <h2>GANASTE!!</h2>
@@ -17,5 +11,10 @@
     <button>
         <a href="{% url 'pregunta_view' 1 %}">JUGAR DE NUEVO</a>
     </button>
-</body>
-</html>
+
+    {% load social_share %}
+
+    {% post_to_facebook object_or_url "Post to Facebook!" %}
+    {% post_to_twitter "mi ultimo puntaje: {{puntaje}}. Check it out!" object_or_url "Post to Twitter" %}
+
+{% endblock %}

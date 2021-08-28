@@ -17,8 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
+    path("login", views.login_view, name="login"),
+    path("logout", views.logout_view, name="logout"),
+    path("register", views.register, name="register"),
+
     path("inicio", views.index_view, name="inicio"),
-    path("pregunta/<int:pregunta_id>", views.pregunta_view, name="pregunta_view"),
+    path("pregunta/<int:pregunta_id>/", views.pregunta_view, name="pregunta_view"),
     path("resultado/<int:sesion_id>", views.resultado_view, name="resultado_view"),
 ]

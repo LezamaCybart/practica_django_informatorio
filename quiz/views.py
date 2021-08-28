@@ -1,19 +1,90 @@
+from django.template import RequestContext
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from .utils import obtener_id_disponible, sacar_id_de_lista
-from .models import Pregunta, ProgresoSesion, Respuesta
+from .models import EstadisticasUsuarios, LoginDetails, PartidasDetails, User, Pregunta, ProgresoSesion, Respuesta
 from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.db import IntegrityError
 import random
-
 
 # Create your views here.
 
 #view de registrar, logear. copiar documentación
+def login_view(request):
+    if request.method == "POST":
+
+        # Attempt to sign user in
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+
+        # Check if authentication successful
+        if user is not None:
+            login(request, user)
+            LoginDetails.objects.create()
+            
+            return HttpResponseRedirect(reverse("inicio"))
+        else:
+            return render(request, "quiz/login.html", {
+                "message": "Invalid username and/or password."
+            })
+    else:
+        return render(request, "quiz/login.html")
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse("inicio"))
+
+def register(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        email = request.POST["email"]
+
+        # Ensure password matches confirmation
+        password = request.POST["password"]
+        confirmation = request.POST["confirmation"]
+        if password != confirmation:
+            return render(request, "quiz/register.html", {
+                "message": "Passwords must match."
+            })
+
+        # Attempt to create new user
+        try:
+            user = User.objects.create_user(username, email, password)
+            user.save()
+            estadisticas = EstadisticasUsuarios.objects.get(id=1)
+            estadisticas.cantidad_de_usuarios += 1
+            estadisticas.save()
+            LoginDetails.objects.create()
+
+        except IntegrityError:
+            return render(request, "quiz/register.html", {
+                "message": "Username already taken."
+            })
+        login(request, user)
+        return HttpResponseRedirect(reverse("inicio"))
+    else:
+        return render(request, "quiz/register.html")
 
 
 #view index
 def index_view(request):
     return render(request, 'quiz/index.html', {})
 
+    """
+    pregunta/1
+    variable = random_numero
+    pregunta_view(variable):
+        es la primera?
+            vamos a pregunta_view_random
+        se crea un numero random. para lo proxima
+        pregunta_view()
+    """
+
 #La view que muestra la pregunta
+@login_required(login_url='/login')
 def pregunta_view(request, pregunta_id):
     if request.method == 'GET':
         preguntas = Pregunta.objects.all()
@@ -78,6 +149,9 @@ def pregunta_view(request, pregunta_id):
 
 
 def resultado_view(request, sesion_id):
+    #contar partida
+    PartidasDetails.objects.create()
+
     sesion = ProgresoSesion.objects.get(id=sesion_id)
     ganador = True
 
