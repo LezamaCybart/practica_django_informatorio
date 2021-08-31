@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .utils import obtener_id_disponible, sacar_id_de_lista
 from .models import EstadisticasUsuarios, LoginDetails, PartidasDetails, User, Pregunta, ProgresoSesion, Respuesta
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, resolve_url
 from django.urls import reverse
 from django.db import IntegrityError
 import random
@@ -13,6 +13,7 @@ import random
 
 #view de registrar, logear. copiar documentación
 def login_view(request):
+
     if request.method == "POST":
 
         # Attempt to sign user in
@@ -71,6 +72,11 @@ def register(request):
 
 #view index
 def index_view(request):
+    #TODO eliminar sesion
+    #usuario = request.user.id
+    if request.user.id:
+        sesion, created= ProgresoSesion.objects.get_or_create(usuario=request.user)
+        sesion.delete()
     return render(request, 'quiz/index.html', {})
 
     """
@@ -84,6 +90,22 @@ def index_view(request):
     """
 
 #La view que muestra la pregunta
+
+"""
+sesion.es_valido = bool
+sesion.buffer = int
+
+get
+sesion.es_valido = True
+sesion.buffer = pregunta_actual
+sesion.es_valido = False
+
+if not es_valido:
+    mostrar la pregunta del buffer
+
+put
+sesion.es_valido = True
+"""
 @login_required(login_url='/login')
 def pregunta_view(request, pregunta_id):
     if request.method == 'GET':
@@ -149,24 +171,33 @@ def pregunta_view(request, pregunta_id):
 
 
 def resultado_view(request, sesion_id):
-    #contar partida
-    PartidasDetails.objects.create()
+    if request.method == 'GET':
+        #contar partida
+        PartidasDetails.objects.create()
 
-    sesion = ProgresoSesion.objects.get(id=sesion_id)
-    ganador = True
+        sesion = ProgresoSesion.objects.get(id=sesion_id)
+        ganador = True
 
-    puntaje = sesion.puntaje
+        puntaje = sesion.puntaje
 
-    if sesion.vidas == 0:
-        ganador = False
+        if sesion.vidas == 0:
+            ganador = False
 
-    sesion.delete()
+        return render(request, 'quiz/resultado.html', {
+            'sesion_id': sesion_id,
+            'puntaje': puntaje,
+            'ganador': ganador
+        })
+    if request.method == 'POST':
+        """
+        if put:
+            sesion.delete()
+            redirect a preguntas_view
+        """
+        sesion = ProgresoSesion.objects.get(id=sesion_id)
+        sesion.delete()
 
-    return render(request, 'quiz/resultado.html', {
-        'puntaje': puntaje,
-        'ganador': ganador
-    })
-
+        return redirect('pregunta_view', pregunta_id=1)
 
 #   metodo get => mostrar pregunta
 #   metodo post => elegir la proxima pregunta.
