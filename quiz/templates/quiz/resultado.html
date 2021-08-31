@@ -8,13 +8,21 @@
         <h2>PERDISTE :(</h2>
     {% endif %}
 
-    <button>
-        <a href="{% url 'pregunta_view' 1 %}">JUGAR DE NUEVO</a>
-    </button>
+    <form action="{% url 'resultado_view' sesion_id  %}" method="post">
+        {% csrf_token %}
+            <button type="submit">
+                JUGAR DE NUEVO
+            </button>
+        </form>
 
     {% load social_share %}
 
-    {% post_to_facebook object_or_url "Post to Facebook!" %}
+    <h3>compartir en redes: {% post_to_facebook object_or_url "Post to Facebook!" %}
     {% post_to_twitter "mi ultimo puntaje: {{puntaje}}. Check it out!" object_or_url "Post to Twitter" %}
+    </h3>
+
+    <h3>
+        <a href="{% url 'inicio' %}">Volver al inicio</a>
+    </h3>
 
 {% endblock %}

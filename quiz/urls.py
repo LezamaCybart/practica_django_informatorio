@@ -23,7 +23,7 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
 
-    path("inicio", views.index_view, name="inicio"),
+    path("", views.index_view, name="inicio"),
     path("pregunta/<int:pregunta_id>/", views.pregunta_view, name="pregunta_view"),
     path("resultado/<int:sesion_id>", views.resultado_view, name="resultado_view"),
 ]

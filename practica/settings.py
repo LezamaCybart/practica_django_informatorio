@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_bootstrap_icons',
     'bootstrap4',
     'django_social_share',
     'quiz',
