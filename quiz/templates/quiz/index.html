@@ -35,7 +35,7 @@
           <h2 class="animate__animated animate__fadeInDown">bienvenido <span>a trivial Chaco</span></h2>
           <p class="animate__animated fanimate__adeInUp">algo más que un juego de preguntas y respuestas</p>
             {% if user.is_authenticated %}
-          <a href="{% url 'pregunta_view' 1 %}" class="btn-get-started animate__animated animate__fadeInUp scrollto">JUGAR!</a>
+          <a href="{% url 'pregunta_view' %}" class="btn-get-started animate__animated animate__fadeInUp scrollto">JUGAR!</a>
           <a href="{% url 'logout' %}" class="btn-get-started animate__animated animate__fadeInUp scrollto">log out</a>
         {% else %}
           <a href="{% url 'login' %}" class="btn-get-started animate__animated animate__fadeInUp scrollto">entrar(login)</a>

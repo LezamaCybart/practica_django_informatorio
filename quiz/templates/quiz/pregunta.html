@@ -6,7 +6,7 @@
     <h1>{{ pregunta.texto }}</h1>
     <ul>
       {% for respuesta in respuestas %}
-      <form action="{% url 'pregunta_view' pregunta.id %}" method="post">
+      <form action="{% url 'pregunta_view' %}" method="post">
         {% csrf_token %}
         <li>
             <button type="submit" name="respuesta" value="{{respuesta.id}}">

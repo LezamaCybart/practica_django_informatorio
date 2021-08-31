@@ -40,6 +40,10 @@ class ProgresoSesion(models.Model):
 
     vidas = models.IntegerField(default=3)
 
+    es_valido = models.BooleanField(default=True)
+
+    buffer = models.IntegerField(default=0)
+
     def obtener_todas_las_preguntas():
         string_de_preguntas = ""
 

@@ -107,33 +107,66 @@ put
 sesion.es_valido = True
 """
 @login_required(login_url='/login')
-def pregunta_view(request, pregunta_id):
+def pregunta_view(request):
     if request.method == 'GET':
-        preguntas = Pregunta.objects.all()
-
-        respuestas = Respuesta.objects.all()
-
         sesion, created = ProgresoSesion.objects.get_or_create(usuario=request.user)
 
-        #quitamos pregunta de las preguntas disponibles
-        print(f"llamando a la funcion {pregunta_id}")
-        sacar_id_de_lista(request.user.id, pregunta_id)
-        print(f"llamé a la funcion {pregunta_id}")
+        if sesion.es_valido:
+            sesion.es_valido = False
+            
+            preguntas = Pregunta.objects.all()
 
-        #id_random = random.randint(1, preguntas.count())
-        id_random = pregunta_id
+            respuestas = Respuesta.objects.all()
 
-        pregunta = preguntas.get(id=id_random)
+            id_pregunta_disponible = obtener_id_disponible(request.user.id)
 
-        respuestas_pregunta = respuestas.filter(pregunta=pregunta)
+            if id_pregunta_disponible == '':
+                id_pregunta_disponible = 0
 
-        return render(request, 'quiz/pregunta.html', {
-            'pregunta': pregunta,
-            'respuestas': respuestas_pregunta,
-            'vidas': sesion.vidas
-        })
+            sesion.buffer = id_pregunta_disponible
+
+            sesion.save()
+
+            #quitamos pregunta de las preguntas disponibles
+            print(f"llamando a la funcion {id_pregunta_disponible}")
+            sacar_id_de_lista(request.user.id, id_pregunta_disponible)
+            print(f"llamé a la funcion {id_pregunta_disponible}")
+
+            #id_random = random.randint(1, preguntas.count())
+            #id_random = pregunta_id
+
+            pregunta = preguntas.get(id=id_pregunta_disponible)
+
+            respuestas_pregunta = respuestas.filter(pregunta=pregunta)
+
+            return render(request, 'quiz/pregunta.html', {
+                'pregunta': pregunta,
+                'respuestas': respuestas_pregunta,
+                'vidas': sesion.vidas
+            })
+        else:
+            preguntas = Pregunta.objects.all()
+
+            respuestas = Respuesta.objects.all()
+
+            pregunta_id = sesion.buffer
+
+            pregunta = preguntas.get(id=pregunta_id)
+
+            respuestas_pregunta = respuestas.filter(pregunta=pregunta)
+
+            return render(request, 'quiz/pregunta.html', {
+                'pregunta': pregunta,
+                'respuestas': respuestas_pregunta,
+                'vidas': sesion.vidas
+            })
+
 
     if request.method == 'POST':
+        sesion = ProgresoSesion.objects.get(usuario=request.user)
+        sesion.es_valido = True
+        sesion.save()
+
     # si es correcta => redireccionar a view pregunta_view
         id_respuesta = request.POST["respuesta"]
 
@@ -150,7 +183,7 @@ def pregunta_view(request, pregunta_id):
 
             #redireccionar
             if id_pregunta_disponible:
-                return redirect('pregunta_view', pregunta_id=id_pregunta_disponible)
+                return redirect('pregunta_view')
             else:
                 return redirect('resultado_view', sesion_id=sesion.id)
 
@@ -163,7 +196,7 @@ def pregunta_view(request, pregunta_id):
 
             if sesion.vidas != 0:
                 id_pregunta_disponible = obtener_id_disponible(request.user.id)
-                return redirect('pregunta_view', pregunta_id=id_pregunta_disponible)
+                return redirect('pregunta_view')
 
             else:
                 return redirect('resultado_view', sesion_id=sesion.id)
@@ -197,7 +230,7 @@ def resultado_view(request, sesion_id):
         sesion = ProgresoSesion.objects.get(id=sesion_id)
         sesion.delete()
 
-        return redirect('pregunta_view', pregunta_id=1)
+        return redirect('pregunta_view')
 
 #   metodo get => mostrar pregunta
 #   metodo post => elegir la proxima pregunta.
