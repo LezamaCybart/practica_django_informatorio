@@ -1,28 +1,133 @@
-{% extends "quiz/layout.html" %}
+{% load static %}
+{% load bootstrap_icons %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block body %}
-    <h1>tu puntaje es {{ puntaje }}!!</h1>
-    {% if ganador %}
-        <h2>GANASTE!!</h2>
-    {% else %}
-        <h2>PERDISTE :(</h2>
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Elije una respuesta</title>
+  
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'quiz/login/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'quiz/login/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+  <link href="{% static 'quiz/login/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'quiz/login/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'quiz/login/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'quiz/login/vendor/line-awesome/css/line-awesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'quiz/login/vendor/venobox/venobox.css' %}" rel="stylesheet">
+  <link href="{% static 'quiz/login/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+  <link href="{% static 'quiz/login/vendor/aos/aos.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'quiz/login/css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Selecao - v2.3.1
+  * Template URL: https://bootstrapmade.com/selecao-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex flex-column justify-content-end align-items-center">
+    <div id="heroCarousel" class="container carousel carousel-fade" data-ride="carousel">
+       {% if message %}
+        <div>{{ message }}</div>
     {% endif %}
 
-    <form action="{% url 'resultado_view' sesion_id  %}" method="post">
-        {% csrf_token %}
-            <button type="submit">
-                JUGAR DE NUEVO
-            </button>
-        </form>
 
-    {% load social_share %}
+      <!-- Slide 1 -->
+      <div class="carousel-item active">
+        <div class="carousel-container">
+            <div class="col-lg-10 d-flex flex-column">
+                <div class="px-lg-5 py-lg-4 p-4">
+                   <h1 class="font text-white"> Puntaje final!: {{ puntaje }} pts</h1> 
+                   <br>
 
-    <h3>compartir en redes: {% post_to_facebook object_or_url "Post to Facebook!" %}
-    {% post_to_twitter "mi ultimo puntaje: {{puntaje}}. Check it out!" object_or_url "Post to Twitter" %}
-    </h3>
+                    {% load social_share %}
 
-    <h3>
-        <a href="{% url 'inicio' %}">Volver al inicio</a>
-    </h3>
+                        <h3 class="font text-white">compartí tu resultado!</h3>
+                    <div style="display: flex; justify-content: center;">
+                        <div style="display: flex; width: 20px; margin: 0px;">
+                            {% post_to_facebook object_or_url "Post to Facebook!" %}
+                        </div>
+                        <div style="display: flex; width: 20px; margin: 0px;">
+                            {% post_to_twitter "Mi ultimo puntaje!: {{puntaje}} pts!" object_or_url "Post to Twitter" %}
+                        </div>
+                        <div style="display: flex; width: 20px; margin: 0px;">
+                            {% post_to_telegram "Mi ultimo puntaje: {{puntaje}}"%}
+                        </div>
+                        <div style="display: flex; width: 20px; margin: 0px;">
+                            {% post_to_whatsapp object_or_url "Share via WhatsApp" %}
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <div style="display: flex; justify-content: center;">
+                        <form action="{% url 'resultado_view' sesion_id  %}" method="post">
+                            {% csrf_token %}
+                                <button style="color: #545b62;" class="btn-get-started animate__animated scrollto" type="submit" name="respuesta" value="{{respuesta.id}}">
+                                    Jugar de nuevo
+                                </button>
+                            </form>
+                                <a  href="{% url 'inicio' %}"style="color: #545b62;" class="btn-get-started animate__animated scrollto" name="respuesta" value="{{respuesta.id}}">
+                                    Volver al inicio
+                                </a>
+                    </div>
+                </div>
+            </div>
 
-{% endblock %}
+        </div>
+      </div>
+      
+    </div>
+
+    <svg class="hero-waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28 " preserveAspectRatio="none">
+      <defs>
+        <path id="wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z">
+      </defs>
+      <g class="wave1">
+        <use xlink:href="#wave-path" x="50" y="3" fill="rgba(255,255,255, .1)">
+      </g>
+      <g class="wave2">
+        <use xlink:href="#wave-path" x="50" y="0" fill="rgba(255,255,255, .2)">
+      </g>
+      <g class="wave3">
+        <use xlink:href="#wave-path" x="50" y="9" fill="#fff">
+      </g>
+    </svg>
+
+  </section><!-- End Hero -->
+
+  <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'quiz/login/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'quiz/login/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'quiz/login/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'quiz/login/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'quiz/login/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'quiz/login/vendor/venobox/venobox.min.js' %}"></script>
+  <script src="{% static 'quiz/login/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'quiz/login/vendor/aos/aos.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'quiz/login/js/main.js' %}"></script>
+
+</body>
+
+</html>

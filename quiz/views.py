@@ -121,7 +121,7 @@ def pregunta_view(request):
             id_pregunta_disponible = obtener_id_disponible(request.user.id)
 
             if id_pregunta_disponible == '':
-                id_pregunta_disponible = 0
+                id_pregunta_disponible = sesion.buffer
 
             sesion.buffer = id_pregunta_disponible
 
@@ -142,7 +142,7 @@ def pregunta_view(request):
             return render(request, 'quiz/pregunta.html', {
                 'pregunta': pregunta,
                 'respuestas': respuestas_pregunta,
-                'vidas': sesion.vidas
+                'vidas': range(sesion.vidas)
             })
         else:
             preguntas = Pregunta.objects.all()
@@ -158,7 +158,7 @@ def pregunta_view(request):
             return render(request, 'quiz/pregunta.html', {
                 'pregunta': pregunta,
                 'respuestas': respuestas_pregunta,
-                'vidas': sesion.vidas
+                'vidas': range(sesion.vidas)
             })
 
 
