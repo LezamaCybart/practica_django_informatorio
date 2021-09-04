@@ -1,8 +1,7 @@
-#obtener id de pregunta
 from .models import Pregunta, ProgresoSesion, User
 import random
 
-
+#obtener id de pregunta
 def obtener_id_disponible(id_usuario):
     usuario = User.objects.get(id=id_usuario)
 
@@ -17,7 +16,6 @@ def obtener_id_disponible(id_usuario):
     return preguntas_disponibles[id_random - 1]
 
 
-#sacar del bombo id de pregunta
 def sacar_id_de_lista(id_usuario, id_pregunta):
     usuario = User.objects.get(id=id_usuario)
 

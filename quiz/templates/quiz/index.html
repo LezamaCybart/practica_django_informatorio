@@ -1,6 +1,118 @@
 {% extends "quiz/layout.html" %}
 {% load static %}
 {% block body %}
+<style>
+  .row.heading h2 {
+    color: #fff;
+    font-size: 52.52px;
+    line-height: 95px;
+    font-weight: 400;
+    text-align: center;
+    margin: 0 0 40px;
+    padding-bottom: 20px;
+    text-transform: uppercase;
+}
+ul{
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.heading.heading-icon {
+    display: block;
+}
+.padding-lg {
+	display: block;
+	padding-top: 60px;
+	padding-bottom: 60px;
+}
+.practice-area.padding-lg {
+    padding-bottom: 55px;
+    padding-top: 55px;
+}
+.practice-area .inner{ 
+     border:1px solid #999999; 
+	 text-align:center; 
+	 margin-bottom:28px; 
+	 padding:40px 25px;
+}
+.our-webcoderskull .cnt-block:hover {
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+    border: 0;
+}
+.practice-area .inner h3{ 
+    color:#3c3c3c; 
+	font-size:24px; 
+	font-weight:500;
+	font-family: 'Poppins', sans-serif;
+	padding: 10px 0;
+}
+.practice-area .inner p{ 
+    font-size:14px; 
+	line-height:22px; 
+	font-weight:400;
+}
+.practice-area .inner img{
+	display:inline-block;
+}
+
+
+.our-webcoderskull .cnt-block{ 
+   float:left; 
+   width:100%; 
+   background:#fff; 
+   padding:30px 20px; 
+   text-align:center; 
+   border:2px solid #d5d5d5;
+   margin: 0 0 28px;
+}
+.our-webcoderskull .cnt-block figure{
+   width:148px; 
+   height:148px; 
+   border-radius:100%; 
+   display:inline-block;
+   margin-bottom: 15px;
+}
+.our-webcoderskull .cnt-block img{ 
+   width:148px; 
+   height:148px; 
+   border-radius:100%; 
+}
+.our-webcoderskull .cnt-block h3{ 
+   color:#2a2a2a; 
+   font-size:20px; 
+   font-weight:500; 
+   padding:6px 0;
+   text-transform:uppercase;
+}
+.our-webcoderskull .cnt-block h3 a{
+  text-decoration:none;
+	color:#2a2a2a;
+}
+.our-webcoderskull .cnt-block h3 a:hover{
+	color:#337ab7;
+}
+.our-webcoderskull .cnt-block p{ 
+   color:#2a2a2a; 
+   font-size:13px; 
+   line-height:20px; 
+   font-weight:400;
+}
+.our-webcoderskull .cnt-block .follow-us{
+	margin:20px 0 0;
+}
+.our-webcoderskull .cnt-block .follow-us li{ 
+    display:inline-block; 
+	width:auto; 
+	margin:0 5px;
+}
+.our-webcoderskull .cnt-block .follow-us li .fa{ 
+   font-size:24px; 
+   color:#767676;
+}
+.our-webcoderskull .cnt-block .follow-us li .fa:hover{ 
+   color:#025a8e;
+}
+</style>
 
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top d-flex align-items-center  header-transparent ">
@@ -17,7 +129,7 @@
           <li class="active"><a href="index.html">inicio</a></li>
           <li><a href="#about">quienes somos</a></li>
           <li><a href="#juego">acerca del juego</a></li>
-          <li><a href="#estadística">estadisticas</a></li>
+          <li><a href="{% url 'estadisticas_view' %}">estadisticas</a></li>
 
         </ul>
       </nav><!-- .nav-menu -->
@@ -100,14 +212,56 @@
         <div class="section-title" data-aos="zoom-out">
           <h2>acerca de...</h2>
           <p>quienes somos</p>
+          <section class="our-webcoderskull padding-lg">
+            <div class="container">
+              <ul class="row">
+                <li class="col-12 col-md-6 col-lg-3">
+                  <div class="cnt-block equal-hight" style="height: 270px;">
+                    <figure><img src="http://www.webcoderskull.com/img/team1.png" class="img-responsive" alt=""></figure>
+                    <h3>Matias Lezama Cybart</h3>
+                  </div>
+                </li>
+                <li class="col-12 col-md-6 col-lg-3">
+                  <div class="cnt-block equal-hight" style="height: 270px;">
+                    <figure><img src="http://www.webcoderskull.com/img/team1.png" class="img-responsive" alt=""></figure>
+                    <h3>Sebastián Gomez</h3>
+                  </div>
+                </li>
+                <li class="col-12 col-md-6 col-lg-3">
+                  <div class="cnt-block equal-hight" style="height: 270px;">
+                    <figure><img src="http://www.webcoderskull.com/img/team1.png" class="img-responsive" alt=""></figure>
+                    <h3>María Antonia Constanzo</h3>
+                  </div>
+                </li>
+                <li class="col-12 col-md-6 col-lg-3">
+                  <div class="cnt-block equal-hight" style="height: 270px;">
+                    <figure><img src="http://www.webcoderskull.com/img/team1.png" class="img-responsive" alt=""></figure>
+                    <h3>Maximo Ezequiel Vazquez</h3>
+                  </div>
+                </li>
+                <li class="col-12 col-md-6 col-lg-3">
+                  <div class="cnt-block equal-hight" style="height: 270px;">
+                    <figure><img src="http://www.webcoderskull.com/img/team1.png" class="img-responsive" alt=""></figure>
+                    <h3>Fabrizio Armoa</h3>
+                  </div>
+                </li>
+                <li class="col-12 col-md-6 col-lg-3">
+                  <div class="cnt-block equal-hight" style="height: 270px;">
+                    <figure><img src="http://www.webcoderskull.com/img/team1.png" class="img-responsive" alt=""></figure>
+                    <h3>Edgar Eduardo Lopez</h3>
+                  </div>
+                </li>
+              </ul>
+
+            </div>
+
+          </section>
+          </div>
+      </li>
+
+          </ul>
         </div>
 
-        <div class="row content" data-aos="fade-up">
-          <div class="col-lg-6">
-            <p>
-              presentación del equipo
-            </p>
-          </div>  
         </div>
       </div>
     </section><!-- fin sección acerca de.. -->       
@@ -120,16 +274,6 @@
           <h2>juego</h2>
           <p>como jugar</p>
         </div>
-
-    <!-- ======= sección estadística ======= -->
-    <section id="estadística" class="estadística">
-      <div class="container">
-
-        <div class="section-title" data-aos="zoom-out">
-          <h2>Estadísticas</h2>
-        </div>
-      </div>
-    </section><!--fin sección estadísticas -->
 
   
   </main><!-- End #main -->

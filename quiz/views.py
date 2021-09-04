@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .utils import obtener_id_disponible, sacar_id_de_lista
-from .models import EstadisticasUsuarios, LoginDetails, PartidasDetails, User, Pregunta, ProgresoSesion, Respuesta
+from .models import EstadisticasUsuarios, LoginDetails, PartidasDetails, ProgresoHistorico, User, Pregunta, ProgresoSesion, Respuesta
 from django.shortcuts import redirect, render, resolve_url
 from django.urls import reverse
 from django.db import IntegrityError
@@ -89,7 +89,6 @@ def index_view(request):
         pregunta_view()
     """
 
-#La view que muestra la pregunta
 
 """
 sesion.es_valido = bool
@@ -106,6 +105,7 @@ if not es_valido:
 put
 sesion.es_valido = True
 """
+#La view que muestra la pregunta
 @login_required(login_url='/login')
 def pregunta_view(request):
     if request.method == 'GET':
@@ -194,7 +194,7 @@ def pregunta_view(request):
             sesion.vidas -=1
             sesion.save()
 
-            if sesion.vidas != 0:
+            if sesion.vidas > 0:
                 id_pregunta_disponible = obtener_id_disponible(request.user.id)
                 return redirect('pregunta_view')
 
@@ -212,6 +212,16 @@ def resultado_view(request, sesion_id):
         ganador = True
 
         puntaje = sesion.puntaje
+
+        #progreso historico
+        progreso_historico, create = ProgresoHistorico.objects.get_or_create(usuario=request.user)
+
+        progreso_historico.puntaje_historico += puntaje
+
+        if progreso_historico.mejor_racha < puntaje:
+            progreso_historico.mejor_racha = puntaje
+        
+        progreso_historico.save()
 
         if sesion.vidas == 0:
             ganador = False
@@ -240,3 +250,10 @@ def resultado_view(request, sesion_id):
 
 
 #view estadisticas
+
+def estadisticas_view(request):
+    estadisticas = ProgresoHistorico.objects.all().order_by('-mejor_racha')[:10]
+
+    return render(request, 'quiz/estadisticas.html', {
+        'estadisticas': estadisticas,
+    })

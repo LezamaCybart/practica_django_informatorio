@@ -26,4 +26,5 @@ urlpatterns = [
     path("", views.index_view, name="inicio"),
     path("pregunta/", views.pregunta_view, name="pregunta_view"),
     path("resultado/<int:sesion_id>", views.resultado_view, name="resultado_view"),
+    path("estadisticas/", views.estadisticas_view, name="estadisticas_view"),
 ]

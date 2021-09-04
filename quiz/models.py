@@ -6,7 +6,12 @@ from datetime import datetime
 class User(AbstractUser):
     pass
 
+class Categoria(models.Model):
+    nombre = models.CharField()
+
 class Pregunta(models.Model):
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+
     texto = models.TextField(max_length=400)
 
 class Respuesta(models.Model):
