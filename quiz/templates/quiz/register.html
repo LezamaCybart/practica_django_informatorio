@@ -8,7 +8,7 @@
     <div class="container d-flex align-items-center">
 
       <div class="logo mr-auto">
-        <h1 class="text-light"><a href="index.html">registro</a></h1>
+        <h1 class="text-light">registro</h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
@@ -32,12 +32,10 @@
                 <h1 class="font-weight-bold text-white">Bienvenido</h1> 
                 <br>
                 <form action="{% url 'register' %}" method="post">
-                {% csrf_token %}
-
-                 
+                  {% csrf_token %}
                  <div class="mb-3">
                    <label for="Usuario " class="form-label text-white">usuario</label>
-                   <input name="usuario" type="usuario" class="form-control bg-white border-0" placeholder="ingresa tu usuario"id="Usuario">
+                   <input name="username" type="usuario" class="form-control bg-white border-0" placeholder="ingresa tu usuario"id="Usuario">
                  </div>
                  <div class="mb-3">
                    <label for="exampleInputEmail1" class="form-label text-white">Correo electrónico</label>
@@ -47,11 +45,15 @@
                  <div class="mb-3">
                    <label for="exampleInputPassword1" class="form-label text-white">Contraseña</label>
                    <input name="password" type="password" class="form-control bg-white border-0" placeholder="ingresa tu contraseña" id="exampleInputPassword1">
+                 </div>
+                 <div class="mb-3">
+                   <label for="exampleInputPassword1" class="form-label text-white">Confirmar contraseña</label>
+                   <input name="confirmation" type="password" class="form-control bg-white border-0" placeholder="confirmar tu contraseña" id="exampleInputPassword1">
                    <br>
                  </div>
                  
                  
-                 <input type="submit" class="btn btn-primary w-100" value="Registrarse">
+                 <input type="submit" class="btn btn-primary w-100" value="Register">
                </form>
              </div>
          </div>

@@ -7,28 +7,28 @@ class User(AbstractUser):
     pass
 
 class Categoria(models.Model):
-    nombre = models.CharField()
+    nombre = models.CharField(max_length=50)
+    def __str__(self) -> str:
+        return self.nombre
 
-class Pregunta(models.Model):
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+
+class Preguntas(models.Model):
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, null=True, blank=True, default=None)
 
     texto = models.TextField(max_length=400)
 
+    def __str__(self) -> str:
+        return self.texto
+
 class Respuesta(models.Model):
-    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
+    pregunta = models.ForeignKey(Preguntas, on_delete=models.CASCADE)
 
     texto = models.CharField(max_length=255)
 
     es_correcta = models.BooleanField()
 
+
 class EstadisticasUsuarios(models.Model):
-    """
-    cantidad de usuarios.
-    cantidad de partidas por dia. veremos
-        en total de los ultima semana.
-    conexiones por dia. veremos
-        en total de los ultima semana.
-    """
     cantidad_de_usuarios = models.IntegerField(default=0)
 
 class LoginDetails(models.Model):
@@ -52,7 +52,7 @@ class ProgresoSesion(models.Model):
     def obtener_todas_las_preguntas():
         string_de_preguntas = ""
 
-        preguntas = Pregunta.objects.all()
+        preguntas = Preguntas.objects.all()
 
         for pregunta in preguntas:
             string_de_preguntas += str(pregunta.id) + ","
@@ -69,6 +69,3 @@ class ProgresoHistorico(models.Model):
     mejor_racha = models.IntegerField(default=0)
 
     puntaje_historico = models.IntegerField(default=0)
-
-
-

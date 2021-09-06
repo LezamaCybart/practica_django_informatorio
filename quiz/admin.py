@@ -4,15 +4,16 @@ from django.db.models import Count
 from django.db.models.functions import TruncDay
 from django.core.serializers.json import DjangoJSONEncoder
 
-from .models import EstadisticasUsuarios, LoginDetails, PartidasDetails, Respuesta, User, Pregunta, ProgresoHistorico, ProgresoSesion
+from .models import Categoria, EstadisticasUsuarios, LoginDetails, PartidasDetails, Respuesta, User, Preguntas, ProgresoHistorico, ProgresoSesion
 
 # Register your models here.
 
 admin.site.register(User)
-admin.site.register(Pregunta)
+admin.site.register(Preguntas)
 admin.site.register(ProgresoSesion)
 admin.site.register(ProgresoHistorico)
 admin.site.register(Respuesta)
+admin.site.register(Categoria)
 
 #estadisticas usuarios
 admin.site.register(EstadisticasUsuarios)

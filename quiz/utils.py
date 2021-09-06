@@ -1,4 +1,4 @@
-from .models import Pregunta, ProgresoSesion, User
+from .models import Preguntas, ProgresoSesion, User
 import random
 
 #obtener id de pregunta

@@ -119,14 +119,14 @@ ul{
     <div class="container d-flex align-items-center">
 
       <div class="logo mr-auto">
-        <h1 class="text-light"><a href="index.html">Trivial Chaco</a></h1>
+        <h1 class="text-light"><a href="{% url 'inicio' %}">Trivial Chaco</a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li class="active"><a href="index.html">inicio</a></li>
+          <li class="active"><a href="{% url 'inicio' %}">inicio</a></li>
           <li><a href="#about">quienes somos</a></li>
           <li><a href="#juego">acerca del juego</a></li>
           <li><a href="{% url 'estadisticas_view' %}">estadisticas</a></li>
@@ -150,7 +150,7 @@ ul{
           <a href="{% url 'pregunta_view' %}" class="btn-get-started animate__animated animate__fadeInUp scrollto">JUGAR!</a>
           <a href="{% url 'logout' %}" class="btn-get-started animate__animated animate__fadeInUp scrollto">log out</a>
         {% else %}
-          <a href="{% url 'login' %}" class="btn-get-started animate__animated animate__fadeInUp scrollto">entrar(login)</a>
+          <a href="{% url 'login' %}" class="btn-get-started animate__animated animate__fadeInUp scrollto">ingresar</a>
           <a href="{% url 'register' %}" class="btn-get-started animate__animated animate__fadeInUp scrollto">registrarse</a>
         {% endif %}
         </div>
@@ -205,49 +205,65 @@ ul{
 
   <main id="main">
 
-    <!-- ======= sección acerca de... ======= -->
-    <section id="about" class="about">
+    <!-- ======= sección juego ======= -->
+    <section id="juego" class="juego">
       <div class="container">
 
         <div class="section-title" data-aos="zoom-out">
-          <h2>acerca de...</h2>
+          <h2>juego</h2>
+          <p>como jugar</p>
+          Pon a prueba tus conocimientos respondiendo las preguntas que Trivial Chaco tiene para vos.
+          <br>
+
+
+          Logra la máxima cantidad de puntos respondiendo correctamente cada pregunta. Para lograrlo, contaras con 3 vidas! cada respuesta incorrecta, resta una vida.
+          <br>
+          No olvides compartir tus resultados y desafiar a tus amigos!
+
+        </div>
+    <!-- ======= sección acerca de... ======= -->
+    <section id="about" class="about">
+      <div style="padding: 0px;" class="container">
+
+        <div class="section-title" data-aos="zoom-out">
+          <h2>Informatorio 2021 | comisión 2 grupo 3</h2>
           <p>quienes somos</p>
           <section class="our-webcoderskull padding-lg">
             <div class="container">
               <ul class="row">
                 <li class="col-12 col-md-6 col-lg-3">
                   <div class="cnt-block equal-hight" style="height: 270px;">
-                    <figure><img src="http://www.webcoderskull.com/img/team1.png" class="img-responsive" alt=""></figure>
+                    <figure><img src="{% static 'quiz/img/matias.jpg' %}" class="img-responsive" alt=""></figure>
                     <h3>Matias Lezama Cybart</h3>
                   </div>
                 </li>
                 <li class="col-12 col-md-6 col-lg-3">
                   <div class="cnt-block equal-hight" style="height: 270px;">
-                    <figure><img src="http://www.webcoderskull.com/img/team1.png" class="img-responsive" alt=""></figure>
+                    <figure><img src="{% static 'quiz/img/sebas.jpg' %}" class="img-responsive" alt=""></figure>
                     <h3>Sebastián Gomez</h3>
                   </div>
                 </li>
                 <li class="col-12 col-md-6 col-lg-3">
                   <div class="cnt-block equal-hight" style="height: 270px;">
-                    <figure><img src="http://www.webcoderskull.com/img/team1.png" class="img-responsive" alt=""></figure>
+                    <figure><img src="{% static 'quiz/img/maria.jpg' %}" class="img-responsive" alt=""></figure>
                     <h3>María Antonia Constanzo</h3>
                   </div>
                 </li>
                 <li class="col-12 col-md-6 col-lg-3">
                   <div class="cnt-block equal-hight" style="height: 270px;">
-                    <figure><img src="http://www.webcoderskull.com/img/team1.png" class="img-responsive" alt=""></figure>
+                    <figure><img src="{% static 'quiz/img/maximo.jpg' %}" class="img-responsive" alt=""></figure>
                     <h3>Maximo Ezequiel Vazquez</h3>
                   </div>
                 </li>
                 <li class="col-12 col-md-6 col-lg-3">
                   <div class="cnt-block equal-hight" style="height: 270px;">
-                    <figure><img src="http://www.webcoderskull.com/img/team1.png" class="img-responsive" alt=""></figure>
+                    <figure><img src="{% static 'quiz/img/fabrizio.jpg' %}" class="img-responsive" alt=""></figure>
                     <h3>Fabrizio Armoa</h3>
                   </div>
                 </li>
                 <li class="col-12 col-md-6 col-lg-3">
                   <div class="cnt-block equal-hight" style="height: 270px;">
-                    <figure><img src="http://www.webcoderskull.com/img/team1.png" class="img-responsive" alt=""></figure>
+                    <figure><img src="{% static 'quiz/img/edgar.jpg' %}" class="img-responsive" alt=""></figure>
                     <h3>Edgar Eduardo Lopez</h3>
                   </div>
                 </li>
@@ -266,14 +282,6 @@ ul{
       </div>
     </section><!-- fin sección acerca de.. -->       
 
-    <!-- ======= sección juego ======= -->
-    <section id="juego" class="juego">
-      <div class="container">
-
-        <div class="section-title" data-aos="zoom-out">
-          <h2>juego</h2>
-          <p>como jugar</p>
-        </div>
 
   
   </main><!-- End #main -->
@@ -283,13 +291,6 @@ ul{
     <div class="container">
       <h3>trivial Chaco</h3>
       <p>ALGO MÁS QUE UN JUEGO DE PREGUNTAS Y RESPUESTAS</p>
-      <div class="social-links">
-        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-      </div>
       <div class="copyright">
         &copy; Copyright <strong><span>trivial Chaco</span></strong>. All Rights Reserved
       </div>

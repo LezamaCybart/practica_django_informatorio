@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .utils import obtener_id_disponible, sacar_id_de_lista
-from .models import EstadisticasUsuarios, LoginDetails, PartidasDetails, ProgresoHistorico, User, Pregunta, ProgresoSesion, Respuesta
+from .models import Categoria, EstadisticasUsuarios, LoginDetails, PartidasDetails, ProgresoHistorico, User, Preguntas, ProgresoSesion, Respuesta
 from django.shortcuts import redirect, render, resolve_url
 from django.urls import reverse
 from django.db import IntegrityError
@@ -114,7 +114,7 @@ def pregunta_view(request):
         if sesion.es_valido:
             sesion.es_valido = False
             
-            preguntas = Pregunta.objects.all()
+            preguntas = Preguntas.objects.all()
 
             respuestas = Respuesta.objects.all()
 
@@ -140,12 +140,13 @@ def pregunta_view(request):
             respuestas_pregunta = respuestas.filter(pregunta=pregunta)
 
             return render(request, 'quiz/pregunta.html', {
+                'categoria': pregunta.categoria,
                 'pregunta': pregunta,
                 'respuestas': respuestas_pregunta,
                 'vidas': range(sesion.vidas)
             })
         else:
-            preguntas = Pregunta.objects.all()
+            preguntas = Preguntas.objects.all()
 
             respuestas = Respuesta.objects.all()
 
@@ -156,6 +157,7 @@ def pregunta_view(request):
             respuestas_pregunta = respuestas.filter(pregunta=pregunta)
 
             return render(request, 'quiz/pregunta.html', {
+                'categoria': pregunta.categoria,
                 'pregunta': pregunta,
                 'respuestas': respuestas_pregunta,
                 'vidas': range(sesion.vidas)
